@@ -1,0 +1,36 @@
+#!/usr/local/bin/node
+
+const exec = require('child_process');
+
+const SCHEDULE = [
+    'N', // 0
+    'N', // 1
+    'N', // 2
+    'N', // 3
+    'N', // 4
+    'N', // 5
+    'N', // 6
+    'N', // 7
+    'W', // 8
+    'W', // 9
+    'W', // 10
+    'W', // 11
+    'N', // 12
+    'N', // 13
+    'N', // 14
+    'N', // 15
+    'N', // 16
+    'W', // 17
+    'W', // 18
+    'W', // 19
+    'W', // 20
+    'B', // 21
+    'B', // 22
+    'B'  // 23
+];
+
+var date = new Date();
+var current_hour = date.getHours();
+var action = SCHEDULE[current_hour];
+
+exec.execSync("")
