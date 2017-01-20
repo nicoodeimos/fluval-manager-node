@@ -6,11 +6,13 @@ Auto-management system for my Fluval Edge aquarium
 
 https://projects.drogon.net/raspberry-pi/wiringpi/download-and-install/
 
-## Rajouter deux taches cron
+## Rajouter les taches cron
 
 `crontab -e`
 
-`* * * * * /home/nicolas/devel/fluval-manager/fluval-manager &`
+`@reboot /home/nicolas/devel/fluval-manager/fluval-manager -configure &`
+
+`0 * * * * /home/nicolas/devel/fluval-manager/fluval-manager &`
 
 `@reboot /home/nicolas/devel/fluval-manager/fluval-manager &`
 
