@@ -4,14 +4,12 @@ const exec = require('child_process');
 
 process.argv.forEach(function (val, index, array) {
   if (val == "-configure") {
-     exec.execSync("gpio write 8 1");
-     exec.execSync("gpio write 9 1");
-     exec.execSync("gpio mode 8 out");
-     exec.execSync("gpio mode 9 out");     
-     process.exit()
+     exec.execSync("gpio write 0 1");
+     exec.execSync("gpio write 2 1");
+     exec.execSync("gpio mode 0 out");
+     exec.execSync("gpio mode 2 out");
   }
 });
-
 
 const SCHEDULE = [
     'N', // 0
@@ -44,13 +42,17 @@ var date = new Date();
 var current_hour = date.getHours();
 var action = SCHEDULE[current_hour];
 
-if (action == 'N') {
-  exec.execSync("gpio write 8 1");
-  exec.execSync("gpio write 9 1");
-} else if (action == 'W') {
-  exec.execSync("gpio write 8 0");
-  exec.execSync("gpio write 9 0");
-} else if (action == 'B') {
-  exec.execSync("gpio write 8 0");
-  exec.execSync("gpio write 9 1");
+change_lights(action);
+
+function change_lights(action) {
+   if (action === 'N') {
+      exec.execSync("gpio write 0 1");
+      exec.execSync("gpio write 2 1");
+   } else if (action === 'W') {
+      exec.execSync("gpio write 0 0");
+      exec.execSync("gpio write 2 0");
+   } else if (action === 'B') {
+      exec.execSync("gpio write 0 0");
+      exec.execSync("gpio write 2 1");
+   }
 }

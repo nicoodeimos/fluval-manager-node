@@ -10,11 +10,9 @@ https://projects.drogon.net/raspberry-pi/wiringpi/download-and-install/
 
 `crontab -e`
 
-`@reboot /home/nicolas/devel/fluval-manager/fluval-manager -configure &`
+`@reboot /home/nicolas/devel/fluval-manager/fluval-manager -configure`
 
-`0 * * * * /home/nicolas/devel/fluval-manager/fluval-manager &`
-
-`@reboot /home/nicolas/devel/fluval-manager/fluval-manager &`
+`@hourly /home/nicolas/devel/fluval-manager/fluval-manager &`
 
 ## Redémarrer
 
