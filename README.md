@@ -10,9 +10,9 @@ https://projects.drogon.net/raspberry-pi/wiringpi/download-and-install/
 
 `crontab -e`
 
-`@reboot /home/<user>/devel/fluval-manager/lights/lights.js -configure`
+`@reboot /home/<user>/fluval-manager/lights/lights.js -configure`
 
-`@hourly /home/<user>/devel/fluval-manager/lights/lights.js &`
+`@hourly /home/<user>/fluval-manager/lights/lights.js &`
 
 ## Redémarrer
 
