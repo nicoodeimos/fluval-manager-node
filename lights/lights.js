@@ -2,6 +2,7 @@
 
 const exec = require('child_process');
 const util = require('util');
+const path = require('path');
 const fs = require('fs');
 
 const POWER_PIN = 0;
@@ -32,7 +33,8 @@ function change_lights(action) {
 }
 
 // read schedule
-var schedule = JSON.parse(fs.readFileSync('schedule.json', 'utf8'));
+var json = fs.readFileSync(path.resolve(__dirname, './schedule.json'), 'utf8');
+var schedule = JSON.parse(json);
 
 // get current date, and find appropriate light mode
 var date = new Date();
