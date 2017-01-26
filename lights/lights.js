@@ -17,6 +17,12 @@ process.argv.forEach(function (val, index, array) {
       exec.execSync(util.format("gpio mode %d out", POWER_PIN));
       exec.execSync(util.format("gpio mode %d out", LIGHT_PIN));
   }
+  if (val == "-force") {
+    var letter = process.argv[index + 1];
+    if letter == 'W' || letter == 'B' || letter = 'N' {
+      change_lights(letter);
+    }
+  }
 });
 
 function change_lights(action) {
