@@ -20,9 +20,13 @@ process.argv.forEach(function (val, index, array) {
   }
   if (val == "-force") {
     var letter = process.argv[index + 1];
-    if letter == 'W' || letter == 'B' || letter = 'N' {
-      change_lights(letter);
-    }
+      if (letter == 'W' || letter == 'B' || letter == 'N') {
+	  change_lights(letter);
+      }
+      else {
+	  console.warn("Unable to use -force without W|B|N mode.");
+      }
+      process.exit();
   }
 });
 
