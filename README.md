@@ -6,6 +6,16 @@ Auto-management system for my Fluval Edge aquarium
 
 https://projects.drogon.net/raspberry-pi/wiringpi/download-and-install/
 
+## Copier le fichier scripts/fluval-manager dans /etc/init.d
+
+`sudo cp scripts/fluval-manager /etc/init.d/fluval-manager`
+
+`sudo chmod +x /etc/init.d/fluval-manager`
+
+## Ajouter le service au demarrage automatique
+
+`sudo update-rc.d fluval-manager defaults`
+
 ## Rajouter les taches cron
 
 `crontab -e`

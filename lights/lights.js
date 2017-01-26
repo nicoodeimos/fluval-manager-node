@@ -12,10 +12,11 @@ const LIGHT_PIN = 2;
 // -configure: sets the GPIO to their initial state
 process.argv.forEach(function (val, index, array) {
   if (val == "-configure") {
-      exec.execSync(util.format("gpio write %d 1", POWER_PIN));
-      exec.execSync(util.format("gpio write %d 1", LIGHT_PIN));
       exec.execSync(util.format("gpio mode %d out", POWER_PIN));
       exec.execSync(util.format("gpio mode %d out", LIGHT_PIN));
+      exec.execSync(util.format("gpio write %d 1", POWER_PIN));
+      exec.execSync(util.format("gpio write %d 1", LIGHT_PIN));
+      process.exit();
   }
 });
 

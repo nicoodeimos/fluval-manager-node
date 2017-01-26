@@ -1,19 +1,22 @@
 {
   "name": "fluval-manager",
   "version": "1.0.0",
-  "description": "Auto-management system for my Fluval Edge aquarium",
-  "main": "fluval-manager.js",
+  "description": "Web interface for my Fluval Edge",
+  "main": "fluval-manager",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com:nicolasbigot/fluval-manager.git"
+    "url": "git+https://github.com/nicolasbigot/fluval-manager.git"
   },
   "author": "Nicolas Bigot",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/nicolasbigot/fluval-manager/issues"
   },
-  "homepage": "https://github.com/nicolasbigot/fluval-manager#readme"
+  "homepage": "https://github.com/nicolasbigot/fluval-manager#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
 }
