@@ -18,6 +18,12 @@ process.argv.forEach(function (val, index, array) {
       exec.execSync(util.format("gpio write %d 1", LIGHT_PIN));
       process.exit();
   }
+  if (val == "-force") {
+    var letter = process.argv[index + 1];
+    if letter == 'W' || letter == 'B' || letter = 'N' {
+      change_lights(letter);
+    }
+  }
 });
 
 function change_lights(action) {
