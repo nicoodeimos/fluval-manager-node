@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Web interface for my Fluval Edge",
   "main": "fluval-manager",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nicolasbigot/fluval-manager.git"
@@ -18,5 +16,12 @@
   "homepage": "https://github.com/nicolasbigot/fluval-manager#readme",
   "dependencies": {
     "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.0.35",
+    "@types/node": "^7.0.4",
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^3.1.4",
+    "typescript": "^2.1.5"
   }
 }
