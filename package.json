@@ -8,6 +8,12 @@
     "type": "git",
     "url": "git+https://github.com/nicolasbigot/fluval-manager.git"
   },
+  "scripts": {
+    "sources": "tsc",
+    "start": "node dist/www.js",
+    "destroy": "rm -rf dist",
+    "clean": "find . -name '*~' -delete"
+  },
   "author": "Nicolas Bigot",
   "license": "MIT",
   "bugs": {
@@ -15,13 +21,17 @@
   },
   "homepage": "https://github.com/nicolasbigot/fluval-manager#readme",
   "dependencies": {
-    "express": "^4.14.0"
+    "body-parser": "^1.16.0",
+    "express": "^4.14.0",
+    "morgan": "^1.7.0",
+    "pug": "^2.0.0-beta10"
   },
   "devDependencies": {
+    "@types/body-parser": "0.0.33",
     "@types/express": "^4.0.35",
+    "@types/morgan": "^1.7.32",
     "@types/node": "^7.0.4",
-    "gulp": "^3.9.1",
-    "gulp-typescript": "^3.1.4",
+    "@types/pug": "^2.0.4",
     "typescript": "^2.1.5"
   }
 }
