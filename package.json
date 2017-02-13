@@ -9,10 +9,14 @@
     "url": "git+https://github.com/nicolasbigot/fluval-manager.git"
   },
   "scripts": {
-    "build": "parallelshell 'npm run build:sources'",
+    "build": "parallelshell 'npm run build:sources' 'npm run build:views' 'npm run build:css'",
     "build:sources": "tsc",
-    "watch": "parallelshell 'npm run watch:sources'",
-    "watch:sources": "tsc -w",
+    "build:views": "cp -r views dist",
+    "build:css": "node-sass scss --output dist/public/css",
+    "watch": "parallelshell 'npm run watch:sources' 'npm run watch:views' 'npm run watch:css'",
+    "watch:sources": "npm run build:sources -- -w",
+    "watch:views": "onchange 'views/**/*.pug' -- npm run build:views",
+    "watch:css": "npm run build:css -- -w",
     "start": "npm run start:prod",
     "start:dev": "nodemon dist/www.js",
     "start:prod": "node dist/www.js",
@@ -29,6 +33,7 @@
   "dependencies": {
     "body-parser": "^1.16.0",
     "express": "^4.14.0",
+    "later": "^1.2.0",
     "morgan": "^1.7.0",
     "pug": "^2.0.0-beta11"
   },
@@ -38,7 +43,9 @@
     "@types/morgan": "^1.7.32",
     "@types/node": "^7.0.4",
     "@types/pug": "^2.0.4",
+    "node-sass": "^4.5.0",
     "nodemon": "^1.11.0",
+    "onchange": "^3.2.1",
     "parallelshell": "^2.0.0",
     "typescript": "^2.1.5"
   }
