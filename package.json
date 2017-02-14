@@ -11,7 +11,7 @@
   "scripts": {
     "build": "parallelshell 'npm run build:sources' 'npm run build:views' 'npm run build:css'",
     "build:sources": "tsc",
-    "build:views": "cp -r views dist",
+    "build:views": "mkdir -p dist/views && cp -r views dist",
     "build:css": "node-sass scss --output dist/public/css",
     "watch": "parallelshell 'npm run watch:sources' 'npm run watch:views' 'npm run watch:css'",
     "watch:sources": "npm run build:sources && npm run build:sources -- -w",

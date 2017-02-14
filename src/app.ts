@@ -7,7 +7,7 @@ import * as lightsRouter from './routes/api/lights/lights';
 let app = express();
 
 // view engine
-app.set('views', path.join(__dirname, './views'));
+app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'pug');
 
 // middlewares
