@@ -1,23 +1,103 @@
-export enum LightsModuleState {
+import {Schedule} from "./schedule";
+import {GPIO} from "./gpio";
+import {Module} from "../module";
+import * as schedule from "node-schedule";
+
+export enum State {
+	Off = 0,
 	White,
-	Blue,
-	Off
+	Blue
 }
 
-export enum LightsModuleMode {
-	Automatic,
+export enum Mode {
+	Automatic = 0,
 	Manual
 }
 
-export class LightsModule {
-	private _state = LightsModuleState.Off;
-	private _mode = LightsModuleMode.Automatic;
+export class LightModule extends Module {
+	private _state: State;
+	private _mode: Mode;
+	private _job: schedule.Job;
+	private _schedule = new Schedule();
+	private _gpio = new GPIO();
 
-	get state(): LightsModuleState {
+	public start(): boolean {
+		if (!super.start())
+			return false;
+		if (!this._gpio.initialize() || !this.switchToAutomaticMode()) {
+			return false;
+		}
+		return true;
+	}
+
+	public stop(): boolean {
+		this.cancelJob();
+		this._mode = Mode.Automatic;
+		this._state = State.Off;
+		this._gpio.setState(this.state);
+		this._gpio.destroy();
+		return super.stop();
+	}
+
+	get state(): State {
 		return this._state;
 	}
 
-	get mode(): LightsModuleMode {
+	public isManuallyControlled(): boolean {
+		return this._mode == Mode.Manual;
+	}
+
+	public isAutomaticallyControlled(): boolean {
+		return this._mode == Mode.Automatic;
+	}
+
+	get mode(): Mode {
 		return this._mode;
+	}
+
+	get schedule(): Schedule {
+		return this._schedule;
+	}
+
+	public switchToAutomaticMode(): boolean {
+		if (this.isStopped() || this.isAutomaticallyControlled()) {
+			return false
+		}
+
+		this.scheduleJob();
+		this._mode = Mode.Automatic;
+		this._state = this._schedule.currentState;
+		return this._gpio.setState(this.state);
+	}
+
+	public switchToManualMode(state: State): boolean {
+		if (this.isStopped() || this.isManuallyControlled()) {
+			return false
+		}
+
+		this.cancelJob()
+		this._mode = Mode.Manual;
+		this._state = state;
+		return this._gpio.setState(this.state);
+	}
+
+	private scheduleJob() {
+	    if (this._job) {
+	        return
+        }
+
+		this._job = schedule.scheduleJob('0 * * * *', () => {
+			this._state = this._schedule.currentState;
+			this._gpio.setState(this.state);
+		});
+	}
+
+	private cancelJob() {
+		if (!this._job) {
+			return
+		}
+
+		this._job.cancel();
+		this._job = undefined;
 	}
 }

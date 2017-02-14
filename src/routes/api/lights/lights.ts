@@ -1,19 +1,23 @@
 import * as express from 'express';
-import * as lightsModule from "../../../modules/lights/lights";
+import * as lights from "../../../modules/lights/lights";
 
 let router = express.Router();
-let lights = new lightsModule.LightsModule()
+let lightsModule = new lights.LightModule()
+lightsModule.start();
 
-router.get('/state', function(request, response) {
+router.get('/', (request, response) => {
     response.status(200).json({
-        state: lights.state,
-        mode: lights.mode
+        status: lightsModule.status,
+        state: lightsModule.state,
+        mode: lightsModule.mode
     });
 });
 
-router.get('/schedule', function(request, response) {
+router.get('/schedule', (request, response) => {
     response.status(200).json({
-
+        duration: lightsModule.schedule.duration,
+        states: lightsModule.schedule.states,
+        currentState: lightsModule.schedule.currentState
     });
 });
 
