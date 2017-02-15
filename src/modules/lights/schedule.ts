@@ -1,4 +1,4 @@
-import {State} from "./lights";
+import {State} from "./enum";
 
 export class Schedule {
     private _schedule: State[] = [];

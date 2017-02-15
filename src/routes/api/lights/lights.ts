@@ -21,4 +21,8 @@ router.get('/schedule', (request, response) => {
     });
 });
 
+router.post('/', (request, response) => {
+    response.status(400).json({});
+});
+
 export = router;

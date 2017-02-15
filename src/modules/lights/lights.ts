@@ -2,17 +2,7 @@ import {Schedule} from "./schedule";
 import {GPIO} from "./gpio";
 import {Module} from "../module";
 import * as schedule from "node-schedule";
-
-export enum State {
-	Off = 0,
-	White,
-	Blue
-}
-
-export enum Mode {
-	Automatic = 0,
-	Manual
-}
+import {State, Mode} from "./enum";
 
 export class LightModule extends Module {
 	private _state: State;
@@ -32,9 +22,9 @@ export class LightModule extends Module {
 
 	public stop(): boolean {
 		this.cancelJob();
-		this._mode = Mode.Automatic;
-		this._state = State.Off;
-		this._gpio.setState(this.state);
+		this._mode = undefined;
+		this._state = undefined;
+		this._gpio.setState(State.Off);
 		this._gpio.destroy();
 		return super.stop();
 	}
