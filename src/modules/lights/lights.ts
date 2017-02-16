@@ -3,8 +3,9 @@ import {GPIO} from "./gpio";
 import {Module} from "../module";
 import * as schedule from "node-schedule";
 import {State, Mode} from "./enum";
+import {JSONSerializable} from "../../json/serializable";
 
-export class LightModule extends Module {
+export class LightModule extends Module implements JSONSerializable {
 	private _state: State;
 	private _mode: Mode;
 	private _job: schedule.Job;
@@ -45,30 +46,59 @@ export class LightModule extends Module {
 		return this._mode;
 	}
 
-	get schedule(): Schedule {
-		return this._schedule;
+	public setMode(mode: Mode, state?: State): boolean {
+		switch (mode) {
+			case Mode.Automatic:
+				return this.switchToAutomaticMode()
+			case Mode.Manual:
+                return this.switchToManualMode(state)
+			default:
+				break;
+		}
+		return false
 	}
 
-	public switchToAutomaticMode(): boolean {
+	public setSchedule(schedule: Schedule): boolean {
+	    if (!schedule.isValid()) {
+	        return false;
+        }
+        this._schedule = schedule;
+	    if (this.isAutomaticallyControlled()) {
+            return this.applyStateFromSchedule();
+        }
+	    return true;
+    }
+
+    public toJSON(): Object {
+        return {
+            status: this.status,
+            state: this.state,
+            mode: this.mode,
+            schedule: this._schedule
+        }
+    }
+
+    private switchToAutomaticMode(): boolean {
 		if (this.isStopped() || this.isAutomaticallyControlled()) {
 			return false
 		}
 
 		this.scheduleJob();
 		this._mode = Mode.Automatic;
-		this._state = this._schedule.currentState;
-		return this._gpio.setState(this.state);
+        return this.applyStateFromSchedule();
 	}
 
-	public switchToManualMode(state: State): boolean {
-		if (this.isStopped() || this.isManuallyControlled()) {
+	private switchToManualMode(state: State): boolean {
+		if (this.isStopped() || (this.isManuallyControlled() && this.state == state)) {
 			return false
 		}
+		if (state != State.Blue && state != State.White && state != State.Off) {
+		    return false;
+        }
 
 		this.cancelJob()
 		this._mode = Mode.Manual;
-		this._state = state;
-		return this._gpio.setState(this.state);
+        return this.applyForcedState(state);
 	}
 
 	private scheduleJob() {
@@ -77,8 +107,7 @@ export class LightModule extends Module {
         }
 
 		this._job = schedule.scheduleJob('0 * * * *', () => {
-			this._state = this._schedule.currentState;
-			this._gpio.setState(this.state);
+			this.applyStateFromSchedule();
 		});
 	}
 
@@ -90,4 +119,14 @@ export class LightModule extends Module {
 		this._job.cancel();
 		this._job = undefined;
 	}
+
+	private applyStateFromSchedule(): boolean {
+        this._state = this._schedule.currentState;
+        return this._gpio.setState(this.state);
+    }
+
+    private applyForcedState(state: State): boolean {
+        this._state = state;
+        return this._gpio.setState(this.state);
+    }
 }
