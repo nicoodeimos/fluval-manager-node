@@ -3,7 +3,7 @@ import * as debug from 'debug';
 import * as http from 'http';
 
 // port
-let port = normalizePort(process.env.PORT || '3000');
+let port = normalizePort(process.env.PORT || '8080');
 app.set('port', port);
 
 // server
