@@ -16,14 +16,6 @@ https://projects.drogon.net/raspberry-pi/wiringpi/download-and-install/
 
 `sudo update-rc.d fluval-manager defaults`
 
-## Rajouter les taches cron
-
-`crontab -e`
-
-`@reboot /home/<user>/fluval-manager/lights/lights.js -configure`
-
-`@hourly /home/<user>/fluval-manager/lights/lights.js &`
-
 ## Redémarrer
 
 `sudo reboot`
