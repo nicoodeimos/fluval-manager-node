@@ -17,7 +17,9 @@
     "watch:sources": "npm run build:sources && npm run build:sources -- -w",
     "watch:views": "npm run build:views && onchange 'views/**/*.pug' -- npm run build:views",
     "watch:css": "npm run build:css && onchange 'css/**/*.less' -- npm run build:css",
-    "start": "nodemon dist/src/www.js",
+    "start": "npm run start:prod",
+    "start:prod": "node dist/src/www.js",
+    "start:dev": "nodemon dist/src/www.js",
     "clean": "npm run clean:build && npm run clean:tmp",
     "clean:build": "rm -rf dist",
     "clean:tmp": "find . -name '*~' -delete"
