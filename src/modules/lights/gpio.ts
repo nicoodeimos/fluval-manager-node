@@ -1,6 +1,10 @@
 import {State} from "./enum";
+import * as exec from "child_process";
+import * as util from "util";
 
 export class GPIO {
+    private static POWER_PIN = 0;
+    private static LIGHT_PIN = 2;
     private _initialized = false;
 
     public isInitialized(): boolean {
@@ -12,7 +16,9 @@ export class GPIO {
             return false;
         }
 
-        // TODO
+        exec.execSync(util.format("gpio mode %d out", GPIO.POWER_PIN));
+        exec.execSync(util.format("gpio mode %d out", GPIO.LIGHT_PIN));
+        this.setState(State.Off);
         this._initialized = true;
         return true;
     }
@@ -22,7 +28,7 @@ export class GPIO {
             return false;
         }
 
-        // TODO
+        this.setState(State.Off);
         this._initialized = false;
         return true;
     }
@@ -32,17 +38,18 @@ export class GPIO {
             return false
         }
 
-        console.log('je sette ' + state);
-
         switch (state) {
             case State.Off:
-                // TODO
+                exec.execSync(util.format("gpio write %d 1", GPIO.LIGHT_PIN));
+                exec.execSync(util.format("gpio write %d 1", GPIO.POWER_PIN));
                 return true;
             case State.White:
-                // TODO
+                exec.execSync(util.format("gpio write %d 0", GPIO.LIGHT_PIN));
+                exec.execSync(util.format("gpio write %d 0", GPIO.POWER_PIN));
                 return true;
             case State.Blue:
-                // TODO
+                exec.execSync(util.format("gpio write %d 1", GPIO.LIGHT_PIN));
+                exec.execSync(util.format("gpio write %d 0", GPIO.POWER_PIN));
                 return true;
             default:
                 return false;
