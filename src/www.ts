@@ -12,6 +12,13 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
+// process
+process.on('SIGTERM', function () {
+  server.close(function () {
+    process.exit(0);
+  });
+});
+
 function normalizePort(val) {
   var port = parseInt(val, 10);
 
