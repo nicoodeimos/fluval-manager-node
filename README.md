@@ -6,15 +6,21 @@ Auto-management system for my Fluval Edge aquarium
 
 https://projects.drogon.net/raspberry-pi/wiringpi/download-and-install/
 
-## Copier le fichier scripts/fluval-manager dans /etc/init.d
+## Installer node.js
 
-`sudo cp scripts/fluval-manager /etc/init.d/fluval-manager`
+https://nodejs.org/en/
 
-`sudo chmod +x /etc/init.d/fluval-manager`
+## Installer forever 
 
-## Ajouter le service au demarrage automatique
+`sudo npm install -g forever`
 
-`sudo update-rc.d fluval-manager defaults`
+## Intaller forever-service
+
+`sudo npm install -g forever-service`
+
+## Installer le script de démarrage
+
+`sudo forever-service install fluval-manager -s dist/src/www.js -e "PORT=8080 ENV=prod" -r nicolas --noGracefulShutdown`
 
 ## Redémarrer
 
