@@ -1,4 +1,4 @@
-# fluval-manager
+# fluval-manager-node
 Auto-management system for my Fluval Edge aquarium
 
 # Installation
