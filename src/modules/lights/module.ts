@@ -9,8 +9,15 @@ export class LightModule extends Module implements JSONSerializable {
 	private _state: State;
 	private _mode: Mode;
 	private _job: schedule.Job;
-	private _schedule = new Schedule();
-	private _gpio = new GPIO();
+	private _schedule: Schedule;
+	private _gpio: GPIO;
+
+	constructor(schedule?: Schedule, gpio?: GPIO) {
+		super();
+
+		this._schedule = schedule && schedule.isValid() ? schedule : new Schedule();
+		this._gpio = gpio ? gpio : new GPIO();
+	}
 
 	public start(): boolean {
 		if (!super.start())

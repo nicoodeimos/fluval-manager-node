@@ -1,6 +1,7 @@
 import {State} from "./enum";
 import * as exec from "child_process";
 import * as util from "util";
+import * as os from "os";
 
 export class GPIO {
     private static POWER_PIN = 0;
@@ -16,8 +17,8 @@ export class GPIO {
             return false;
         }
 
-        exec.execSync(util.format("gpio mode %d out", GPIO.POWER_PIN));
-        exec.execSync(util.format("gpio mode %d out", GPIO.LIGHT_PIN));
+        this.execCommand(util.format("gpio mode %d out", GPIO.POWER_PIN));
+        this.execCommand(util.format("gpio mode %d out", GPIO.LIGHT_PIN));
         this.setState(State.Off);
         this._initialized = true;
         return true;
@@ -40,19 +41,26 @@ export class GPIO {
 
         switch (state) {
             case State.Off:
-                exec.execSync(util.format("gpio write %d 1", GPIO.LIGHT_PIN));
-                exec.execSync(util.format("gpio write %d 1", GPIO.POWER_PIN));
+                this.execCommand(util.format("gpio write %d 1", GPIO.LIGHT_PIN));
+                this.execCommand(util.format("gpio write %d 1", GPIO.POWER_PIN));
                 return true;
             case State.White:
-                exec.execSync(util.format("gpio write %d 0", GPIO.LIGHT_PIN));
-                exec.execSync(util.format("gpio write %d 0", GPIO.POWER_PIN));
+                this.execCommand(util.format("gpio write %d 0", GPIO.LIGHT_PIN));
+                this.execCommand(util.format("gpio write %d 0", GPIO.POWER_PIN));
                 return true;
             case State.Blue:
-                exec.execSync(util.format("gpio write %d 1", GPIO.LIGHT_PIN));
-                exec.execSync(util.format("gpio write %d 0", GPIO.POWER_PIN));
+                this.execCommand(util.format("gpio write %d 1", GPIO.LIGHT_PIN));
+                this.execCommand(util.format("gpio write %d 0", GPIO.POWER_PIN));
                 return true;
             default:
                 return false;
         }
+    }
+
+    private execCommand(command: string) {
+        if (os.platform() == 'darwin') {
+            return
+        }
+        exec.execSync(command);
     }
 }
