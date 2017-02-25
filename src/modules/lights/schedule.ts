@@ -5,6 +5,7 @@ import {isNumber} from "util";
 import {isUndefined} from "util";
 
 export class Schedule implements JSONSerializable {
+
     private _schedule: State[] = [];
 
     constructor(schedule?: State[]) {
@@ -59,4 +60,5 @@ export class Schedule implements JSONSerializable {
             this._schedule[from + i] = state;
         }
     }
+
 }

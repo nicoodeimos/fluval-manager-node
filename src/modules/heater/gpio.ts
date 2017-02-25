@@ -1,12 +1,10 @@
-import {State} from "./enum";
 import * as exec from "child_process";
 import * as util from "util";
 import * as os from "os";
+import {Status} from "../../base/module";
 
 export class GPIO {
-
-    private static POWER_PIN = 0;
-    private static LIGHT_PIN = 2;
+    private static POWER_PIN = 13;
     private _initialized = false;
 
     public isInitialized(): boolean {
@@ -19,8 +17,7 @@ export class GPIO {
         }
 
         this.execCommand(util.format("gpio mode %d out", GPIO.POWER_PIN));
-        this.execCommand(util.format("gpio mode %d out", GPIO.LIGHT_PIN));
-        this.setState(State.Off);
+        this.setState(Status.Stopped);
         this._initialized = true;
         return true;
     }
@@ -34,23 +31,17 @@ export class GPIO {
         return true;
     }
 
-    public setState(state: State): boolean {
+    public setState(status: Status): boolean {
         if (!this.isInitialized()) {
             return false
         }
 
-        switch (state) {
-            case State.Off:
-                this.execCommand(util.format("gpio write %d 0", GPIO.LIGHT_PIN));
+        switch (status) {
+            case Status.Stopped:
+                this.execCommand(util.format("gpio write %d 1", GPIO.POWER_PIN));
+                return true;
+            case Status.Started:
                 this.execCommand(util.format("gpio write %d 0", GPIO.POWER_PIN));
-                return true;
-            case State.White:
-                this.execCommand(util.format("gpio write %d 1", GPIO.LIGHT_PIN));
-                this.execCommand(util.format("gpio write %d 1", GPIO.POWER_PIN));
-                return true;
-            case State.Blue:
-                this.execCommand(util.format("gpio write %d 0", GPIO.LIGHT_PIN));
-                this.execCommand(util.format("gpio write %d 1", GPIO.POWER_PIN));
                 return true;
             default:
                 return false;
@@ -63,5 +54,4 @@ export class GPIO {
         }
         exec.execSync(command);
     }
-
 }

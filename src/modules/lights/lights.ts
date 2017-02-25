@@ -1,11 +1,11 @@
 import {Schedule} from "./schedule";
 import {GPIO} from "./gpio";
-import {Module} from "../module";
-import * as schedule from "node-schedule";
 import {State, Mode} from "./enum";
-import {JSONSerializable} from "../../json/serializable";
+import {Module} from "../../base/module";
+import * as schedule from "node-schedule";
 
-export class LightModule extends Module implements JSONSerializable {
+export class LightModule extends Module {
+
 	private _state: State;
 	private _mode: Mode;
 	private _job: schedule.Job;
@@ -29,12 +29,14 @@ export class LightModule extends Module implements JSONSerializable {
 	}
 
 	public stop(): boolean {
-		this.cancelJob();
+        if (!super.stop())
+            return false;
+        this.cancelJob();
 		this._mode = undefined;
 		this._state = undefined;
 		this._gpio.setState(State.Off);
 		this._gpio.destroy();
-		return super.stop();
+		return true;
 	}
 
 	get state(): State {
@@ -77,12 +79,11 @@ export class LightModule extends Module implements JSONSerializable {
     }
 
     public toJSON(): Object {
-        return {
-            status: this.status,
-            state: this.state,
-            mode: this.mode,
-            schedule: this._schedule
-        }
+		let json = super.toJSON();
+		json['state'] = this.state;
+		json['mode'] = this.mode;
+		json['schedule'] = this._schedule.toJSON();
+		return json;
     }
 
     private switchToAutomaticMode(): boolean {
@@ -136,4 +137,5 @@ export class LightModule extends Module implements JSONSerializable {
         this._state = state;
         return this._gpio.setState(this.state);
     }
+
 }

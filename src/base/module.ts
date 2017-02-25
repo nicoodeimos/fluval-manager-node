@@ -1,9 +1,11 @@
+import {JSONSerializable} from "../json/serializable";
+
 export enum Status {
     Stopped = 0,
     Started
 }
 
-export class Module {
+export class Module implements JSONSerializable {
     private _status = Status.Stopped;
 
     get status(): Status {
@@ -33,4 +35,11 @@ export class Module {
         this._status = Status.Stopped;
         return true;
     }
+
+    public toJSON(): Object {
+        return {
+            status: this.status
+        }
+    }
+
 }

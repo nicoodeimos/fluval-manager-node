@@ -1,12 +1,14 @@
+import {BasicStrategy} from "passport-http";
 import * as express from 'express';
 import * as path from 'path';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
-import * as apiLights from './routes/api/lights';
+import * as lightsRouter from './routes/api/lights';
+import * as filterRouter from './routes/api/filter';
+import * as heaterRouter from './routes/api/heater';
 import * as passport from "passport";
 import * as fs from "fs";
 import * as sha256 from "sha256";
-import {BasicStrategy} from "passport-http";
 
 let app = express();
 
@@ -34,7 +36,9 @@ passport.use(new BasicStrategy(
 
 // routes
 app.all('/api/*', passport.authenticate('basic', { session: false }));
-app.use('/api/lights', apiLights);
+app.use('/api/lights', lightsRouter);
+app.use('/api/filter', filterRouter);
+app.use('/api/heater', heaterRouter);
 
 // errors
 app.use(function(request, response, next) {
