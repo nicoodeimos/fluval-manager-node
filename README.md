@@ -18,6 +18,11 @@ https://nodejs.org/en/
 
 `sudo npm install -g forever-service`
 
+## Builder le projet
+
+`cd fluval-manager`
+`npm run build`
+
 ## Installer le script de démarrage
 
 `sudo forever-service install fluval-manager -s dist/src/www.js -e "PORT=8080 ENV=prod" -r nicolas --noGracefulShutdown`
