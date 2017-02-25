@@ -41,16 +41,16 @@ export class GPIO {
 
         switch (state) {
             case State.Off:
-                this.execCommand(util.format("gpio write %d 1", GPIO.LIGHT_PIN));
-                this.execCommand(util.format("gpio write %d 1", GPIO.POWER_PIN));
-                return true;
-            case State.White:
                 this.execCommand(util.format("gpio write %d 0", GPIO.LIGHT_PIN));
                 this.execCommand(util.format("gpio write %d 0", GPIO.POWER_PIN));
                 return true;
-            case State.Blue:
+            case State.White:
                 this.execCommand(util.format("gpio write %d 1", GPIO.LIGHT_PIN));
-                this.execCommand(util.format("gpio write %d 0", GPIO.POWER_PIN));
+                this.execCommand(util.format("gpio write %d 1", GPIO.POWER_PIN));
+                return true;
+            case State.Blue:
+                this.execCommand(util.format("gpio write %d 0", GPIO.LIGHT_PIN));
+                this.execCommand(util.format("gpio write %d 1", GPIO.POWER_PIN));
                 return true;
             default:
                 return false;
