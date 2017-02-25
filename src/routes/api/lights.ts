@@ -1,6 +1,6 @@
 import * as express from 'express';
-import {Schedule} from "../../../modules/lights/schedule";
-import {LightModule} from "../../../modules/lights/module";
+import {Schedule} from "../../modules/lights/schedule";
+import {LightModule} from "../../modules/lights/module";
 
 let router = express.Router();
 let lightsModule = new LightModule()

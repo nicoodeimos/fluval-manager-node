@@ -2,7 +2,7 @@ import * as express from 'express';
 import * as path from 'path';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
-import * as apiLights from './routes/api/lights/router';
+import * as apiLights from './routes/api/lights';
 import * as passport from "passport";
 import * as fs from "fs";
 import * as sha256 from "sha256";
