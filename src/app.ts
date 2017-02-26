@@ -6,6 +6,7 @@ import * as bodyParser from 'body-parser';
 import * as lightsRouter from './routes/api/lights';
 import * as filterRouter from './routes/api/filter';
 import * as heaterRouter from './routes/api/heater';
+import * as temperatureRouter from './routes/api/temperature';
 import * as passport from "passport";
 import * as fs from "fs";
 import * as sha256 from "sha256";
@@ -39,6 +40,7 @@ app.all('/api/*', passport.authenticate('basic', { session: false }));
 app.use('/api/lights', lightsRouter);
 app.use('/api/filter', filterRouter);
 app.use('/api/heater', heaterRouter);
+app.use('/api/temperature', temperatureRouter);
 
 // errors
 app.use(function(request, response, next) {
