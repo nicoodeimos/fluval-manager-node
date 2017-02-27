@@ -6,6 +6,19 @@ Auto-management system for my Fluval Edge aquarium
 
 https://projects.drogon.net/raspberry-pi/wiringpi/download-and-install/
 
+## Activer les modules
+
+Ajouter les deux lignes suivantes dans le fichier `/etc/modules`
+
+`w1-gpio`
+`w1-therm`
+
+## Modifier la configuration du boot
+
+Ajouter la ligne au fichier `/boot/config.txt`
+
+`dtoverlay=w1-gpio,gpiopin=4`
+
 ## Installer node.js
 
 https://nodejs.org/en/
