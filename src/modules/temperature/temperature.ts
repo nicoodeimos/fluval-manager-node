@@ -52,7 +52,7 @@ export class TemperatureModule extends Module {
             }, 5000)
         } else {
             clearInterval(this._interval)
-            this._interval = isUndefined
+            this._interval = undefined
         }
     }
 
