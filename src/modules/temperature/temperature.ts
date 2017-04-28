@@ -8,7 +8,7 @@ export class TemperatureModule extends Module {
     private _gpio = new GPIO();
     private _temperature: number;
     private _interval: Timer;
-
+   
     public start(): boolean {
         if (!super.start())
             return false;
@@ -49,11 +49,16 @@ export class TemperatureModule extends Module {
         if (active) {
             this._interval = setInterval(() => {
                 this.updateTemperature()
-            }, 5000)
+        	this.publishTemperature()
+	    }, 5000)
         } else {
             clearInterval(this._interval)
             this._interval = undefined
         }
+    }
+
+    private publishTemperature() {
+        
     }
 
 }
